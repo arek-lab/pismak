@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import GeneratorShell from '@/components/generators/GeneratorShell'
-import WezwanieForm from '@/components/generators/WezwanieForm'
-import { wezwanieTemplates } from '@/lib/templates/wezwanie'
-import type { WezwanieTemplateId } from '@/lib/templates/wezwanie'
+import OpiniaForm from '@/components/generators/OpiniaForm'
+import { opiniaTemplates } from '@/lib/templates/opinia'
+import type { OpiniaTemplateId } from '@/lib/templates/opinia'
 
-const TEMPLATES = Object.values(wezwanieTemplates).map((t) => ({
+const TEMPLATES = Object.values(opiniaTemplates).map((t) => ({
   id: t.id,
   label: t.label,
 }))
@@ -15,13 +15,13 @@ interface Props {
   generatorId: string
 }
 
-export default function WezwanieGeneratorClient({ generatorId }: Props) {
-  const [activeTemplateId, setActiveTemplateId] = useState<WezwanieTemplateId>('standardowe')
+export default function OpiniaGeneratorClient({ generatorId }: Props) {
+  const [activeTemplateId, setActiveTemplateId] = useState<OpiniaTemplateId>('profesjonalna')
   const [generatedDocument, setGeneratedDocument] = useState<string | null>(null)
   const [formKey, setFormKey] = useState(0)
 
   const handleTemplateChange = (id: string) => {
-    setActiveTemplateId(id as WezwanieTemplateId)
+    setActiveTemplateId(id as OpiniaTemplateId)
     setGeneratedDocument(null)
   }
 
@@ -39,10 +39,11 @@ export default function WezwanieGeneratorClient({ generatorId }: Props) {
       generatedDocument={generatedDocument}
       onClear={() => setGeneratedDocument(null)}
       onNewData={handleNewData}
+      actions={['copy']}
+      outputMode="editable"
       bare
-      actions={['pdf']}
     >
-      <WezwanieForm key={formKey} activeTemplateId={activeTemplateId} onGenerate={setGeneratedDocument} />
+      <OpiniaForm key={formKey} activeTemplateId={activeTemplateId} onGenerate={setGeneratedDocument} />
     </GeneratorShell>
   )
 }

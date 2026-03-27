@@ -1,8 +1,12 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useRef, useEffect } from 'react'
 import { ds } from '@/styles/design-system'
 
 interface DocumentOutputProps {
   content: string
+  mode?: 'readonly' | 'editable'
+  onContentChange?: (value: string) => void
 }
 
 function renderInline(text: string): React.ReactNode {
@@ -77,7 +81,41 @@ function TableBlock({ lines }: { lines: string[] }) {
   )
 }
 
-export default function DocumentOutput({ content }: DocumentOutputProps) {
+export default function DocumentOutput({ content, mode = 'readonly', onContentChange }: DocumentOutputProps) {
+  const [editableContent, setEditableContent] = useState(content)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  // Sync with new content (e.g. new document generated)
+  useEffect(() => {
+    setEditableContent(content)
+  }, [content])
+
+  // Auto-resize textarea to fit content
+  useEffect(() => {
+    if (mode === 'editable' && textareaRef.current) {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px'
+    }
+  }, [editableContent, mode])
+
+  if (mode === 'editable') {
+    const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setEditableContent(e.target.value)
+      onContentChange?.(e.target.value)
+    }
+    return (
+      <div>
+        <p className={ds.documentPreviewHeader}>Podgląd pisma</p>
+        <textarea
+          ref={textareaRef}
+          className={`${ds.documentPreview} w-full resize-none mb-5`}
+          value={editableContent}
+          onChange={handleChange}
+        />
+      </div>
+    )
+  }
+
   const lines = content.split('\n')
   const elements: React.ReactNode[] = []
   let i = 0

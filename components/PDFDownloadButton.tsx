@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { pushEvent } from '@/lib/gtm'
-import { ds } from '@/styles/design-system'
 
 interface PDFDownloadButtonProps {
   content: string
@@ -44,7 +43,7 @@ export default function PDFDownloadButton({ content, pismoType }: PDFDownloadBut
     <button
       onClick={handlePDF}
       disabled={generating}
-      className={ds.btnSecondary}
+      className="border border-[#55aaff] text-[#55aaff] px-6 py-3 rounded-xl font-medium hover:bg-[#55aaff]/10 transition-colors"
       type="button"
     >
       {generating ? 'Generuję PDF…' : 'Pobierz PDF'}

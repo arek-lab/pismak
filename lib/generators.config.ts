@@ -53,5 +53,99 @@ export const GENERATORS: GeneratorConfig[] = [
     status: 'active',
   },
 
+  {
+    id: 'reklamacja',
+    slug: 'odpowiedz-na-reklamacje',
+    label: 'Odpowiedź na reklamację',
+    description: 'Profesjonalna odpowiedź na reklamację klienta. Trzy wzory: rzeczowa, empatyczna, neutralna.',
+    icon: '📨',
+    ctaText: 'Obsługujesz reklamacje regularnie? Prywaciarz automatyzuje cały proces →',
+    seo: {
+      title: 'Odpowiedź na reklamację – darmowy generator online | Pismak',
+      description: 'Wygeneruj profesjonalną odpowiedź na reklamację klienta w 60 sekund. Zgodnie z art. 7a ustawy o prawach konsumenta. Bez rejestracji.',
+      faqItems: [
+        { question: 'Ile czasu mam na odpowiedź na reklamację?', answer: 'Zgodnie z art. 7a ustawy o prawach konsumenta masz 14 dni kalendarzowych od otrzymania reklamacji. Brak odpowiedzi oznacza fikcję uznania reklamacji.' },
+        { question: 'Co grozi za brak odpowiedzi na reklamację?', answer: 'Zgodnie z art. 7a ust. 2 ustawy o prawach konsumenta reklamacja jest automatycznie uznana za zasadną — fikcja uznania.' },
+        { question: 'Czy odpowiedź na reklamację musi być pisemna?', answer: 'Ustawa nie wymaga formy pisemnej, ale zalecamy e-mail lub list polecony — masz wtedy dowód zachowania terminu 14 dni.' },
+        { question: 'Czy mogę ujawnić dane klienta w odpowiedzi?', answer: 'Nie. Odpowiedź na reklamację może być przekazana osobom trzecim. Nie ujawniaj danych osobowych klienta — naruszałoby to RODO.' },
+        { question: 'Kiedy użyć wzoru rzeczowego a kiedy empatycznego?', answer: 'Rzeczowy — gdy reklamacja jest bezzasadna i masz dowody. Empatyczny — gdy firma popełniła błąd. Neutralny — gdy zgłoszenie jest niekompletne i czekasz na dokumenty.' },
+      ],
+    },
+    status: 'active',
+  },
+
+  {
+    id: 'opinia',
+    slug: 'odpowiedz-na-opinie-google',
+    label: 'Odpowiedź na opinię Google',
+    description: 'Profesjonalna odpowiedź na negatywną opinię w Google Maps. Trzy wzory: profesjonalna, empatyczna, neutralna.',
+    icon: '⭐',
+    ctaText: 'Odpowiadasz na opinie regularnie? Prywaciarz automatyzuje monitoring →',
+    seo: {
+      title: 'Odpowiedź na opinię Google – darmowy generator online | Pismak',
+      description: 'Wygeneruj profesjonalną odpowiedź na negatywną opinię Google w 60 sekund. Zgodnie z RODO. Bez rejestracji.',
+      faqItems: [
+        { question: 'Czy muszę odpowiadać na opinie Google?', answer: 'Nie ma obowiązku prawnego, ale odpowiedź pokazuje innym klientom że firma reaguje i dba o relacje.' },
+        { question: 'Czy mogę ujawnić dane klienta w odpowiedzi?', answer: 'Nie — odpowiedź jest publiczna i widoczna dla wszystkich. Ujawnienie danych osobowych autora opinii naruszałoby RODO.' },
+        { question: 'Jak długa powinna być odpowiedź na opinię Google?', answer: 'Maksymalnie 5 zdań — Google obcina widok po ok. 200 znakach. Krótko, rzeczowo, z zaproszeniem do kontaktu.' },
+        { question: 'Kiedy użyć wzoru profesjonalnego a kiedy empatycznego?', answer: 'Profesjonalny — gdy opinia jest niesprawiedliwa i masz fakty. Empatyczny — gdy firma popełniła błąd. Neutralny — gdy opinia nie ma treści lub wygląda na fałszywą.' },
+        { question: 'Czy odpowiedź na opinię może zaszkodzić wizerunkowo?', answer: 'Tak — agresywna lub defensywna odpowiedź szkodzi bardziej niż sama negatywna opinia. Zawsze zachowaj spokojny, rzeczowy ton.' },
+      ],
+    },
+    status: 'active',
+  },
+
   // -- v2: dopisz tutaj kolejne generatory --
+]
+
+export interface AiFeatureConfig {
+  id: string
+  label: string
+  description: string
+  icon: string
+  slug: string
+  status: 'coming-soon'
+}
+
+export const AI_FEATURES: AiFeatureConfig[] = [
+  {
+    id: 'notatka-ze-spotkania',
+    label: 'Notatka ze spotkania',
+    description: 'Wgraj nagranie lub wklej transkrypt — AI przygotuje strukturalną notatkę.',
+    icon: '🎙️',
+    slug: 'ai-asystent',
+    status: 'coming-soon'
+  },
+  {
+    id: 'podsumuj-dokument',
+    label: 'Podsumuj dokument',
+    description: 'Wgraj PDF lub Word — AI streści kluczowe punkty w 5 zdaniach.',
+    icon: '📋',
+    slug: 'ai-asystent',
+    status: 'coming-soon'
+  },
+  {
+    id: 'stresc-pismo',
+    label: 'Streść pismo od klienta',
+    description: 'Wklej treść pisma — AI wyciągnie sedno i sugeruje odpowiedź.',
+    icon: '✉️',
+    slug: 'ai-asystent',
+    status: 'coming-soon'
+  },
+  {
+    id: 'odnies-sie-do-regulaminu',
+    label: 'Odnieś się do regulaminu',
+    description: 'Podaj regulamin i sytuację — AI wskaże właściwy paragraf i zredaguje odpowiedź.',
+    icon: '📜',
+    slug: 'ai-asystent',
+    status: 'coming-soon'
+  },
+  {
+    id: 'odpowiedz-na-maila',
+    label: 'Odpowiedz na maila',
+    description: 'Wklej maila od klienta — AI przygotuje profesjonalną odpowiedź.',
+    icon: '💬',
+    slug: 'ai-asystent',
+    status: 'coming-soon'
+  },
 ]

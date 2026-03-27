@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 import DocumentOutput from '@/components/DocumentOutput'
 import DocumentActions from '@/components/DocumentActions'
 import CtaPrywaciarz from '@/components/CtaPrywaciarz'
@@ -21,6 +21,8 @@ interface GeneratorShellProps {
   onClear: () => void
   onNewData?: () => void
   bare?: boolean
+  actions?: Array<'print' | 'pdf' | 'copy'>
+  outputMode?: 'readonly' | 'editable'
 }
 
 export default function GeneratorShell({
@@ -33,7 +35,19 @@ export default function GeneratorShell({
   onClear,
   onNewData,
   bare = false,
+  actions,
+  outputMode = 'readonly',
 }: GeneratorShellProps) {
+  // Track edited content so copy/actions use the current editable text
+  const [editedContent, setEditedContent] = useState<string | null>(null)
+
+  useEffect(() => {
+    setEditedContent(null)
+  }, [generatedDocument])
+
+  const actionContent =
+    outputMode === 'editable' && editedContent !== null ? editedContent : generatedDocument
+
   if (bare) {
     return (
       <div className="max-w-[680px] mx-auto overflow-x-hidden">
@@ -62,29 +76,26 @@ export default function GeneratorShell({
           <div className={ds.generatorOutput}>
             <p className={ds.sectionDivider}>Wygenerowany dokument</p>
 
-            <DocumentOutput content={generatedDocument} />
-
-            <DocumentActions content={generatedDocument} pismoType={generatorId} />
+            <DocumentOutput
+              content={generatedDocument}
+              mode={outputMode}
+              onContentChange={outputMode === 'editable' ? setEditedContent : undefined}
+            />
 
             <CtaPrywaciarz generatorId={generatorId} show={true} />
 
-            <div className="flex gap-3 justify-center">
-              {onNewData && (
-                <button
-                  className={ds.btnGhost}
-                  onClick={onNewData}
-                  type="button"
-                >
-                  Nowe dane
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex gap-2">
+                {onNewData && (
+                  <button className={ds.btnGhost} onClick={onNewData} type="button">
+                    Nowe dane
+                  </button>
+                )}
+                <button className={ds.btnGhost} onClick={onClear} type="button">
+                  Wygeneruj ponownie
                 </button>
-              )}
-              <button
-                className={ds.btnGhost}
-                onClick={onClear}
-                type="button"
-              >
-                Wygeneruj ponownie
-              </button>
+              </div>
+              <DocumentActions content={actionContent ?? ''} pismoType={generatorId} actions={actions} />
             </div>
           </div>
         )}
@@ -119,17 +130,21 @@ export default function GeneratorShell({
 
           <DocumentOutput content={generatedDocument} />
 
-          <DocumentActions content={generatedDocument} pismoType={generatorId} />
-
           <CtaPrywaciarz generatorId={generatorId} show={true} />
 
-          <button
-            className={ds.btnGhost}
-            onClick={onClear}
-            type="button"
-          >
-            Wyczyść i wygeneruj ponownie
-          </button>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex gap-2">
+              {onNewData && (
+                <button className={ds.btnGhost} onClick={onNewData} type="button">
+                  Nowe dane
+                </button>
+              )}
+              <button className={ds.btnGhost} onClick={onClear} type="button">
+                Wygeneruj ponownie
+              </button>
+            </div>
+            <DocumentActions content={generatedDocument} pismoType={generatorId} actions={actions} />
+          </div>
         </div>
       )}
     </div>
