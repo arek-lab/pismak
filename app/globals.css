@@ -2,26 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ===== GLOBAL RESET & OVERFLOW FIX ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+  scroll-behavior: smooth;
+}
+
+:root {
+  --color-paper: #FAFAF8;
+  --color-surface: #FFFFFF;
+  --color-border: #E8E4DC;
+  --color-ink: #1A1A1A;
+  --color-ink-muted: #6B6B6B;
+  --color-accent: #1B4332;
+  --color-accent-light: #D1FAE5;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-ink);
+  background: #F5F4F0;
+  font-family: 'DM Sans', Arial, sans-serif;
+}
+
+/* Zabezpieczenie: żaden element nie wychodzi poza viewport */
+img,
+video,
+svg,
+iframe {
+  max-width: 100%;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* Date input calendar icon — logo color #55aaff */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(62%) sepia(99%) saturate(458%) hue-rotate(185deg) brightness(101%) contrast(101%);
+  opacity: 1;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #document-output,
+  #document-output * {
+    visibility: visible;
+  }
+  #document-output {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 2cm;
+  }
+  .no-print {
+    display: none !important;
   }
 }
