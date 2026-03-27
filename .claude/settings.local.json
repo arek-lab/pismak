@@ -10,7 +10,9 @@
       "Bash(curl -k -L \"https://github.com/google/fonts/raw/main/ofl/lato/Lato-Regular.ttf\" -o /c/data/ai_projects/pismak/public/fonts/Lato-Regular.ttf)",
       "Bash(curl -k -L \"https://github.com/google/fonts/raw/main/ofl/lato/Lato-Bold.ttf\" -o /c/data/ai_projects/pismak/public/fonts/Lato-Bold.ttf)",
       "Bash(curl -k -L \"https://github.com/google/fonts/raw/main/ofl/lato/Lato-Italic.ttf\" -o public/fonts/Lato-Italic.ttf)",
-      "Bash(curl -k -L \"https://github.com/google/fonts/raw/main/ofl/lato/Lato-BoldItalic.ttf\" -o public/fonts/Lato-BoldItalic.ttf)"
+      "Bash(curl -k -L \"https://github.com/google/fonts/raw/main/ofl/lato/Lato-BoldItalic.ttf\" -o public/fonts/Lato-BoldItalic.ttf)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }

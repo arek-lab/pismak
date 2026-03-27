@@ -13,12 +13,12 @@ export default function Footer() {
         </Link>
 
         <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-7 text-sm text-gray-500">
-          <Link
+          {/* <Link
             href="/wezwanie-do-zaplaty"
             className="hover:text-gray-900 transition-colors min-h-[44px] flex items-center"
           >
             Wezwanie do zapłaty
-          </Link>
+          </Link> */}
           <a
             href="https://maspii.netlify.app"
             target="_blank"
