@@ -12,7 +12,8 @@
       "Bash(curl -k -L \"https://github.com/google/fonts/raw/main/ofl/lato/Lato-Italic.ttf\" -o public/fonts/Lato-Italic.ttf)",
       "Bash(curl -k -L \"https://github.com/google/fonts/raw/main/ofl/lato/Lato-BoldItalic.ttf\" -o public/fonts/Lato-BoldItalic.ttf)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(node:*)"
     ]
   }
 }

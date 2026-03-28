@@ -34,8 +34,8 @@ const lato = Lato({
   display: 'swap',
 })
 
-// Zamień GTM-XXXXXXX na swój container ID z Google Tag Manager
-const GTM_ID = 'GTM-XXXXXXX'
+// container ID z Google Tag Manager
+// const GTM_ID = 'GTM-PENDING'
 
 export const metadata: Metadata = {
   title: 'Pismak — darmowy generator pism firmowych',

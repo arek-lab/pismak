@@ -197,13 +197,13 @@ export function PolitykaPrywatnosci() {
       <Ol>
         <Li>
           Cookies analityczne i marketingowe są aktywowane wyłącznie po wyrażeniu zgody przez
-          użytkownika. Wybór "Tylko niezbędne" oznacza brak zgody na cookies analityczne
+          użytkownika. Wybór &ldquo;Tylko niezbędne&rdquo; oznacza brak zgody na cookies analityczne
           i marketingowe — strona działa normalnie, lecz Serwis nie zbiera danych o ruchu
           i nie mierzy skuteczności reklam.
         </Li>
         <Li>
           Preferencje dotyczące cookies są zapamiętywane przez 12 miesięcy. Użytkownik może
-          je zmienić w dowolnym momencie, klikając link "Ustawienia cookies" w stopce Serwisu.
+          je zmienić w dowolnym momencie, klikając link &ldquo;Ustawienia cookies&rdquo; w stopce Serwisu.
         </Li>
         <Li>
           Szczegółowe informacje o plikach cookie stosowanych przez Google dostępne są w
@@ -231,7 +231,7 @@ export function PolitykaPrywatnosci() {
           użytkownika w banerze cookie.
         </Li>
         <Li>
-          W przypadku braku zgody (wybór "Tylko niezbędne") GTM nie przekazuje danych
+          W przypadku braku zgody (wybór &ldquo;Tylko niezbędne&rdquo;) GTM nie przekazuje danych
           osobowych do Google Analytics ani Google Ads. Google może zbierać ograniczone,
           zanonimizowane sygnały zgodnie z własną polityką prywatności.
         </Li>
@@ -260,8 +260,8 @@ export function PolitykaPrywatnosci() {
           (art. 16 RODO).
         </BulletLi>
         <BulletLi>
-          <strong>Prawo do usunięcia</strong> — prawo do żądania usunięcia danych ("prawo do
-          bycia zapomnianym", art. 17 RODO).
+          <strong>Prawo do usunięcia</strong> — prawo do żądania usunięcia danych (&ldquo;prawo do
+          bycia zapomnianym&rdquo;, art. 17 RODO).
         </BulletLi>
         <BulletLi>
           <strong>Prawo do ograniczenia przetwarzania</strong> — prawo do żądania wstrzymania
