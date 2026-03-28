@@ -1,6 +1,7 @@
 'use client'
 
 import { useReducer, useRef, useEffect } from 'react'
+import { useLegal } from '@/lib/legal-context'
 import { wezwanieTemplates } from '@/lib/templates/wezwanie'
 import type { WezwanieTemplateId } from '@/lib/templates/wezwanie'
 import type { FieldConfig } from '@/lib/templates/types'
@@ -63,6 +64,7 @@ function todayISO() {
 }
 
 export default function WezwanieForm({ activeTemplateId, onGenerate }: WezwanieFormProps) {
+  const { openLegal } = useLegal()
   const today = todayISO()
   const [fields, dispatch] = useReducer(reducer, {
     waluta: 'PLN',
@@ -152,6 +154,16 @@ export default function WezwanieForm({ activeTemplateId, onGenerate }: WezwanieF
       >
         Wygeneruj wezwanie
       </button>
+      <p className="text-xs text-[#6B6B6B] mt-2 text-center font-['DM_Sans']">
+        Generując dokument akceptujesz{' '}
+        <button
+          type="button"
+          onClick={() => openLegal('regulamin')}
+          className="underline hover:text-[#1B4332] transition-colors cursor-pointer"
+        >
+          regulamin serwisu
+        </button>.
+      </p>
     </form>
   )
 }

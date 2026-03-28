@@ -1,8 +1,8 @@
-# Pismak — PRD + Roadmap pracy z Claude Code
+\# Pismak — PRD + Roadmap pracy z Claude Code
 
 > Dokument pracy dla Claude Code. Czytaj go sekwencyjnie — każdy etap zaczyna się dopiero po weryfikacji poprzedniego.
 >
-> **Stan aktualny (v1.4):** Trzy aktywne generatory — wezwanie do zapłaty, odpowiedź na reklamację, odpowiedź na opinię Google. Landing główny z kaflami generatorów i kaflami AI Features. Osobna strona /ai-asystent jako landing dla funkcji AI. Regulamin i polityka prywatności jako overlay — link w stopce i przy każdym przycisku generowania.
+> **Stan aktualny (v1.3):** Trzy aktywne generatory — wezwanie do zapłaty, odpowiedź na reklamację, odpowiedź na opinię Google. Landing główny z kaflami generatorów i kaflami AI Features. Osobna strona /ai-asystent jako landing dla funkcji AI (placeholder z pełną treścią). Architektura zaprojektowana pod rozbudowę bez refaktoru.
 
 ---
 
@@ -85,7 +85,6 @@ pismak/
 │   │   ├── OpiniaForm.tsx                      # ✅ formularz opinii
 │   │   └── OpiniaGeneratorClient.tsx           # ✅ client wrapper
 │   │
-│   ├── LegalOverlay.tsx                        # ✅ wspólny overlay: regulamin + polityka
 │   ├── DocumentOutput.tsx                      # Podgląd — tryb readonly i editable
 │   ├── DocumentActions.tsx                     # Akcje: pdf | drukuj | kopiuj (konfigurowalne)
 │   ├── PDFDownloadButton.tsx                   # Dynamic import @react-pdf/renderer
@@ -99,10 +98,6 @@ pismak/
 │   │   ├── wezwanie.ts                         # ✅ generowanie tekstu
 │   │   ├── reklamacja.ts                       # ✅ generowanie tekstu
 │   │   └── opinia.ts                           # ✅ generowanie tekstu
-│   │
-│   ├── legal/
-│   │   ├── regulamin.ts                        # Treść regulaminu jako string (wklej gotowy)
-│   │   └── polityka-prywatnosci.ts             # Treść polityki jako string (wklej gotowy)
 │   │
 │   ├── generators.config.ts                    # Rejestr generatorów + AI Features
 │   ├── schema.ts                               # JSON-LD helpers
@@ -281,158 +276,7 @@ Zero zmian w innych komponentach.
 
 ---
 
-## 4c. Feature: Regulamin i polityka prywatności (overlay)
-
-### Koncepcja
-
-Regulamin i polityka prywatności wyświetlane jako overlay (modal pełnoekranowy) — nie jako osobne strony. Jeden wspólny komponent `LegalOverlay` obsługuje oba dokumenty. Treść dostarczana z plików `lib/legal/`.
-
-### Gdzie pojawia się link
-
-**Stopka (`app/layout.tsx`):**
-```
-Regulamin  ·  Polityka prywatności
-```
-Oba jako przyciski otwierające overlay — nie jako `<a href>` do osobnych stron.
-
-**Przy każdym przycisku "Generuj" w formularzach** — zdanie pasywne bezpośrednio pod przyciskiem submit:
-
-> *Generując dokument akceptujesz [regulamin serwisu](#).*
-
-Link w zdaniu otwiera overlay z regulaminem. Nie blokuje generowania — informuje.
-
-### Layout overlaya
-
-```
-┌─────────────────────────────────────────┐
-│  [Tytuł dokumentu]      [✕ Zamknij]     │  ← sticky header
-├─────────────────────────────────────────┤
-│                                         │
-│  [treść — scrollowalna wewnątrz]        │
-│                                         │
-├─────────────────────────────────────────┤
-│               [Zamknij]                 │  ← sticky footer
-└─────────────────────────────────────────┘
-```
-
-**Styl:**
-- Backdrop: `bg-black/50`, klik zamyka overlay
-- Panel: `bg-white`, `max-w-2xl`, `mx-auto`, `rounded-2xl`, `max-h-[90vh]`
-- Body: `overflow-y-auto`, font DM Sans `text-sm leading-relaxed`
-- Nagłówki w treści: Playfair Display
-- Zamykanie: przycisk u góry, przycisk u dołu, klawisz Escape, klik w backdrop
-- Gdy otwarty: `document.body.style.overflow = 'hidden'`
-
-### Architektura komponentów
-
-```
-app/layout.tsx
-  └── <LegalProvider>           ← context zarządzający stanem
-        <LegalOverlay />         ← jeden raz, czyta stan z context
-        {children}
-      </LegalProvider>
-
-lib/legal-context.tsx           ← openLegal(type), closeLegal(), legalState
-lib/legal/regulamin.tsx         ← RegulaminContent() + REGULAMIN_TYTUL
-lib/legal/polityka-prywatnosci.tsx  ← PolitykaPrywatnosci() + POLITYKA_TYTUL
-components/LegalOverlay.tsx     ← modal UI, 'use client'
-```
-
-Każdy formularz wywołuje `openLegal('regulamin')` przez hook `useLegal()` z contextu — bez propsów przez drzewo.
-
-### Treść dokumentów
-
-Format: **JSX** (nagłówki, akapity, listy — bez parsowania Markdown).
-
-```tsx
-// lib/legal/regulamin.tsx
-export const REGULAMIN_TYTUL = 'Regulamin serwisu Pismak'
-
-export function RegulaminContent() {
-  return (
-    <>
-      <h2>§1. Postanowienia ogólne</h2>
-      <p>...</p>
-      {/* wklej gotową treść */}
-    </>
-  )
-}
-```
-
-### Prompt dla Claude Code
-
-```
-Zaimplementuj system regulaminu i polityki prywatności jako overlay.
-
-1. lib/legal-context.tsx ('use client')
-   LegalContext z: openLegal(type: 'regulamin' | 'polityka'), closeLegal(),
-   legalState: { isOpen: boolean; type: 'regulamin' | 'polityka' | null }
-   Eksportuj hook useLegal().
-   LegalProvider jako wrapper z useState.
-
-2. lib/legal/regulamin.tsx
-   export const REGULAMIN_TYTUL = 'Regulamin serwisu Pismak'
-   export function RegulaminContent() — placeholder:
-   <p>Treść regulaminu zostanie uzupełniona.</p>
-
-3. lib/legal/polityka-prywatnosci.tsx
-   export const POLITYKA_TYTUL = 'Polityka prywatności'
-   export function PolitykaPrywatnosci() — placeholder analogiczny
-
-4. components/LegalOverlay.tsx ('use client')
-   Czyta stan z useLegal().
-   Backdrop: fixed inset-0 bg-black/50 z-50, klik zamyka
-   Panel: relative bg-white max-w-2xl mx-auto mt-8 rounded-2xl max-h-[90vh]
-     flex flex-col (header + body scroll + footer)
-   Header sticky: tytuł (Playfair Display) + przycisk "✕ Zamknij" po prawej
-   Body: flex-1 overflow-y-auto p-6 font DM Sans text-sm leading-relaxed
-     renderuje RegulaminContent lub PolitykaPrywatnosci zależnie od type
-   Footer sticky: przycisk "Zamknij" wyśrodkowany p-4 border-t
-   Escape: useEffect + keydown listener
-   Body overflow: useEffect ustawia document.body.style.overflow = 'hidden'
-     gdy isOpen, 'unset' gdy zamknięty
-
-5. app/layout.tsx
-   Owiń children w <LegalProvider>
-   Dodaj <LegalOverlay /> wewnątrz LegalProvider
-   Stopka: bg-white border-t border-[#E8E4DC] py-4 px-6
-     flex justify-center gap-6
-     "© 2026 Pismak"  ·  przycisk "Regulamin"  ·  przycisk "Polityka prywatności"
-     przyciski: text-xs text-[#6B6B6B] underline hover:text-[#1B4332]
-     onClick: openLegal('regulamin') / openLegal('polityka')
-
-6. W WezwanieForm, ReklamacjaForm, OpiniaForm dodaj pod przyciskiem submit:
-   const { openLegal } = useLegal()
-   ...
-   <p className="text-xs text-[#6B6B6B] mt-2 text-center">
-     Generując dokument akceptujesz{' '}
-     <button type="button" onClick={() => openLegal('regulamin')}
-       className="underline hover:text-[#1B4332] transition-colors cursor-pointer">
-       regulamin serwisu
-     </button>.
-   </p>
-
-Po implementacji:
-- npm run build musi przejść
-- Sprawdź overlay na mobile (scroll wewnętrzny działa)
-- Sprawdź Escape zamyka
-- Sprawdź klik w backdrop zamyka, klik w panel nie zamyka
-```
-
-### Wklejenie gotowej treści regulaminu
-
-Po implementacji placeholdera — osobna sesja Claude Code:
-
-```
-Zastąp zawartość RegulaminContent() w lib/legal/regulamin.tsx
-gotową treścią regulaminu poniżej.
-Przekonwertuj na JSX: akapity jako <p>, paragrafy jako <h2>, listy jako <ul><li>.
-Nie zmieniaj nic poza zawartością funkcji RegulaminContent().
-
-[wklej treść regulaminu]
-```
-
----
+Poproś Claude Code o wygenerowanie `lib/templates/types.ts` jako **pierwszy krok** przed jakimkolwiek formularzem.
 
 W MVP definiujesz tylko typy dla wezwania. Resztę zostawiasz jako zakomentowane TODO — żeby Claude Code nie próbował ich implementować, ale żebyś widział gdzie to wejdzie w v2.
 
@@ -624,7 +468,6 @@ Przekazuj te ograniczenia w każdym prompcie jeśli Claude zaczyna iść w złą
 - [x] Sitemap zawiera tylko aktywne URL
 - [x] Wdrożony na Netlify
 - [x] Design system (styles/design-system.ts)
-- [ ] Regulamin i polityka prywatności jako overlay (sekcja 4c)
 
 ### Gotowość v3 (kolejny generator)
 

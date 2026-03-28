@@ -1,6 +1,7 @@
 'use client'
 
 import { useReducer, useRef, useEffect } from 'react'
+import { useLegal } from '@/lib/legal-context'
 import { reklamacjaTemplates } from '@/lib/templates/reklamacja'
 import type { ReklamacjaTemplateId } from '@/lib/templates/reklamacja'
 import type { FieldConfig } from '@/lib/templates/types'
@@ -44,6 +45,7 @@ const sectionHeadingStyle: React.CSSProperties = {
 const sectionSeparatorClass = 'mt-10 pt-10 border-t border-[#f0f0f0]'
 
 export default function ReklamacjaForm({ activeTemplateId, onGenerate }: ReklamacjaFormProps) {
+  const { openLegal } = useLegal()
   const [fields, dispatch] = useReducer(reducer, {})
   const prevTemplateRef = useRef<ReklamacjaTemplateId>(activeTemplateId)
 
@@ -127,6 +129,16 @@ export default function ReklamacjaForm({ activeTemplateId, onGenerate }: Reklama
       >
         Wygeneruj odpowiedź
       </button>
+      <p className="text-xs text-[#6B6B6B] mt-2 text-center font-['DM_Sans']">
+        Generując dokument akceptujesz{' '}
+        <button
+          type="button"
+          onClick={() => openLegal('regulamin')}
+          className="underline hover:text-[#1B4332] transition-colors cursor-pointer"
+        >
+          regulamin serwisu
+        </button>.
+      </p>
     </form>
   )
 }

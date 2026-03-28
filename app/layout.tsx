@@ -2,6 +2,11 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { Playfair_Display, DM_Sans, DM_Mono, Lato } from 'next/font/google'
 import './globals.css'
+import { LegalProvider } from '@/lib/legal-context'
+import { CookieConsentProvider } from '@/lib/cookie-consent'
+import LegalOverlay from '@/components/LegalOverlay'
+import LegalFooter from '@/components/LegalFooter'
+import CookieBanner from '@/components/CookieBanner'
 
 const playfair = Playfair_Display({
   subsets: ['latin', 'latin-ext'],
@@ -45,6 +50,9 @@ export default function RootLayout({
   return (
     <html lang="pl" className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable} ${lato.variable}`}>
       <head>
+        {/* Consent Mode v2 — domyślny stan przed GTM */}
+        <script dangerouslySetInnerHTML={{ __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',wait_for_update:500});` }} />
         {/* GTM — script tag w <head> */}
         <Script id="gtm-script" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -64,9 +72,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             style={{ display: 'none', visibility: 'hidden' }}
           />
         </noscript>
-        <div className="min-h-screen">
-          {children}
-        </div>
+        <CookieConsentProvider>
+          <LegalProvider>
+            <div className="min-h-screen">
+              {children}
+            </div>
+            <footer className="bg-white border-t border-[#E8E4DC] py-4 px-6 flex justify-center gap-6">
+              <LegalFooter />
+            </footer>
+            <LegalOverlay />
+            <CookieBanner />
+          </LegalProvider>
+        </CookieConsentProvider>
       </body>
     </html>
   )
