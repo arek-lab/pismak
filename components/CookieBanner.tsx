@@ -29,7 +29,7 @@ export default function CookieBanner() {
             Polityka prywatności
           </button>
         </p>
-        <div className="flex gap-3 shrink-0">
+        <div className="flex flex-row-reverse sm:flex-row gap-3 shrink-0">
           <button
             type="button"
             onClick={acceptAll}
